@@ -1,0 +1,22 @@
+body {
+    padding: 0;
+    margin: 0;
+    width: 50%;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+}
+.tabs {
+	width: 100%;
+	background-color: #d8d8d8;
+}
+.tab-control {
+	display: inline-block;
+	background-color: gray;
+	border-radius: 5px;
+	padding: 10px;
+	cursor: pointer;
+}
+.content-tab {
+	background-color: gray;
+	padding: 10px;
+}
