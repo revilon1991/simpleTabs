@@ -12,6 +12,8 @@ simpleTabs jQuery Plugin v0.1
 - options.classNameTabControl - Переопределить имя класса по умолчанию для переключателей
 - options.classNameTabContent - Переопределить имя класса по умолчанию для контента табов
 - options.classNameTabControlActive - Переопределить имя класса по умолчанию для активного переключателя
+- options.verticalTabs : {width: [int]} - Использовать вертикальные табы на ширине экрана до указанного
+- options.verticalTabs : true - Использовать для всех разрешений
 
 ### require:
 > jQuery 1.10.1 или выше
