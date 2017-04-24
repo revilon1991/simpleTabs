@@ -1,4 +1,7 @@
 /**
+ * simpleTabs v0.1
+ * https://gitlab.com/revilon/simpleTabs
+ *
  * Простой плагин jQuery, который может работать с неограниченным количеством
  * наборов табов на странице. Без всяких эффектов и наворотов.
  * Для работы достаточно только передать коллекцию элементов jQuery
@@ -7,6 +10,8 @@
  * options.classNameTabControl - Переопределить имя класса по умолчанию для переключателей
  * options.classNameTabContent - Переопределить имя класса по умолчанию для контента табов
  * options.classNameTabControlActive - Переопределить имя класса по умолчанию для активного переключателя
+ * options.verticalTabs : {width: [int]} - Использовать вертикальные табы на ширине экрана до указанного
+ * options.verticalTabs : true - Использовать для всех разрешений
  *
  * require:
  * > jQuery 1.10.1
@@ -25,6 +30,7 @@
             this.classNameTabControl = options !== undefined && 'classNameTabControl' in options ? options['classNameTabControl'] : 'tab-control';
             this.classNameTabControlActive = options !== undefined && 'classNameTabControlActive' in options ? options['classNameTabControlActive'] : 'active';
             this.classNameTabContent = options !== undefined && 'classNameTabContent' in options ? options['classNameTabContent'] : 'content-tab';
+            this.verticalTabsOptions = options !== undefined && 'verticalTabs' in options ? options.verticalTabs : false;
 
             /**
              * Разделить все табы на стеки в виде массива
@@ -90,6 +96,40 @@
                     $(this).find('.' + Parent.classNameTabControl).removeClass(Parent.classNameTabControlActive);
                     $(this).find('.' + Parent.classNameTabControl).eq(0).addClass(Parent.classNameTabControlActive);
                 });
+            };
+
+            /**
+             * Использовать конструкцию вертикальных табов
+             */
+            this.verticalTabs = function () {
+                var Parent = this,
+                    ScreenWidth;
+                if (Parent.verticalTabsOptions === true) {
+                    Parent.verticalTabsAction();
+                }
+                if (typeof Parent.verticalTabsOptions == 'object' && 'width' in Parent.verticalTabsOptions) {
+                    ScreenWidth = screen.width;
+                    if (ScreenWidth <= Parent.verticalTabsOptions.width) {
+                        Parent.verticalTabsAction();
+                    }
+                }
+            };
+
+            /**
+             * Действие для организации вертикальных табов
+             */
+            this.verticalTabsAction = function (width) {
+                var Parent = this,
+                    numberStackTabs,
+                    currentStackTabs,
+                    contentDetach;
+                for(numberStackTabs in Parent.tabsArray) {
+                    currentStackTabs = $(Parent.tabsArray[numberStackTabs]);
+                    currentStackTabs.find('.' + Parent.classNameTabControl).each(function(index) {
+                        contentDetach = $(this).closest(currentStackTabs).find('.' + Parent.classNameTabContent).eq(index).detach();
+                        contentDetach.insertAfter($(this));
+                    });
+                }
             }
 
         }
@@ -98,6 +138,7 @@
         tabs.getArrayFromAllTabs();
         tabs.setAllStacksTabsLogic();
         tabs.showTabFirstStack();
+        tabs.verticalTabs();
 
         return true;
     };
