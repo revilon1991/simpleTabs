@@ -9,12 +9,16 @@ simpleTabs jQuery Plugin v0.1
 - Назначить класс "tab-control" переключателям
 
 ### Опции:
-- options.classNameTabControl: 'string' - Переопределить имя класса по умолчанию для переключателей
-- options.classNameTabContent: 'string' - Переопределить имя класса по умолчанию для контента табов
-- options.classNameTabControlActive: 'string' - Переопределить имя класса по умолчанию для активного переключателя
-- options.verticalTabs : {width: int} - Использовать вертикальные табы на ширине экрана до указанного
-- options.verticalTabs : true - Использовать для всех разрешений
-
+```javascript
+// Передать объект в аргумент функции
+{
+    classNameTabControl: 'string',          // Переопределить имя класса по умолчанию для переключателей
+    classNameTabContent: 'string',          // Переопределить имя класса по умолчанию для контента табов
+    classNameTabControlActive: 'string',    // Переопределить имя класса по умолчанию для активного переключателя
+    verticalTabs : {width: int},            // Использовать вертикальные табы на ширине экрана до указанного
+    verticalTabs : true                     // Использовать для всех разрешений
+}
+```
 ### require:
 > jQuery 1.10.1 или выше
 
