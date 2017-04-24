@@ -10,7 +10,7 @@ simpleTabs jQuery Plugin v0.1
 
 ### Опции:
 ```javascript
-// Передать объект в аргумент функции
+// Передать объект в аргумент функции simpleTabs
 {
     classNameTabControl: 'string',          // Переопределить имя класса по умолчанию для переключателей
     classNameTabContent: 'string',          // Переопределить имя класса по умолчанию для контента табов
