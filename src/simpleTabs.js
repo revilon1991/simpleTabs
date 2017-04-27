@@ -47,11 +47,16 @@
              */
             this.createStackTabs = function (stackTabs) {
                 var Parent = this,
-                    i = 0;
+                    i = 0,
+                    contentId = 0;
                 $(stackTabs).attr('data-stack-tabs', Parent.numberStackTabs);
                 $(stackTabs).find('.' + Parent.classNameTabControl).each(function (index, element) {
                     $(element).attr("data-page", i);
                     i++;
+                });
+                $(stackTabs).find('.' + Parent.classNameTabContent).each(function (index, element) {
+                    $(element).attr("data-page", contentId);
+                    contentId++;
                 });
                 $(stackTabs).find('.' + Parent.classNameTabControl).click(function () {
                     var stack = $(this).closest(stackTabs),
@@ -69,9 +74,9 @@
             this.showTab = function (stackTabs, i) {
                 var Parent = this;
                 $(stackTabs).find('.' + Parent.classNameTabContent).hide();
-                $(stackTabs).find('.' + Parent.classNameTabContent).eq(i).show();
+                $(stackTabs).find('.' + Parent.classNameTabContent + '[data-page=' + i + ']').show();
                 $(stackTabs).find('.' + Parent.classNameTabControl).removeClass(Parent.classNameTabControlActive);
-                $(stackTabs).find('.' + Parent.classNameTabControl).eq(i).addClass(Parent.classNameTabControlActive);
+                $(stackTabs).find('.' + Parent.classNameTabControl + '[data-page=' + i + ']').addClass(Parent.classNameTabControlActive);
             };
 
             /**
@@ -97,17 +102,21 @@
                     Parent.verticalTabsAction();
                 }
                 if (typeof Parent.verticalTabsOptions == 'object' && 'width' in Parent.verticalTabsOptions) {
-                    ScreenWidth = screen.width;
-                    if (ScreenWidth <= Parent.verticalTabsOptions.width) {
-                        Parent.verticalTabsAction();
-                    }
+                    $(window).resize(function() {
+                        ScreenWidth = screen.width;
+                        if (ScreenWidth <= Parent.verticalTabsOptions.width) {
+                            Parent.verticalTabsAction();
+                        } else {
+                            Parent.horizontalTabsAction();
+                        }
+                    });
                 }
             };
 
             /**
              * Действие для организации вертикальных табов
              */
-            this.verticalTabsAction = function (width) {
+            this.verticalTabsAction = function () {
                 var Parent = this,
                     numberStackTabs,
                     currentStackTabs,
@@ -115,8 +124,28 @@
                 for(numberStackTabs in Parent.tabsArray) {
                     currentStackTabs = $(Parent.tabsArray[numberStackTabs]);
                     currentStackTabs.find('.' + Parent.classNameTabControl).each(function(index) {
-                        contentDetach = $(this).closest(currentStackTabs).find('.' + Parent.classNameTabContent).eq(index).detach();
-                        contentDetach.insertAfter($(this));
+                        contentDetach = $(this)
+                            .closest(currentStackTabs)
+                            .find('.' + Parent.classNameTabContent + '[data-page=' + index + ']')
+                            .detach();
+                        contentDetach.insertAfter($(this).filter('[data-page=' + index + ']'));
+                    });
+                }
+            };
+
+            /**
+             * Действие для организации горизонтальных табов
+             */
+            this.horizontalTabsAction = function () {
+                var Parent = this,
+                    numberStackTabs,
+                    currentStackTabs,
+                    contentDetach;
+                for(numberStackTabs in Parent.tabsArray) {
+                    currentStackTabs = $(Parent.tabsArray[numberStackTabs]);
+                    currentStackTabs.find('.' + Parent.classNameTabContent).each(function() {
+                        contentDetach = $(this).detach();
+                        contentDetach.insertAfter(currentStackTabs.find('.' + Parent.classNameTabControl).last());
                     });
                 }
             }
