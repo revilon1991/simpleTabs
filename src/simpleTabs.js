@@ -20,6 +20,7 @@
             this.classNameTabControlActive = options !== undefined && 'classNameTabControlActive' in options ? options['classNameTabControlActive'] : 'active';
             this.classNameTabContent = options !== undefined && 'classNameTabContent' in options ? options['classNameTabContent'] : 'content-tab';
             this.verticalTabsOptions = options !== undefined && 'verticalTabs' in options ? options.verticalTabs : false;
+            this.switchStyle = options !== undefined && 'switchStyle' in options ? options.switchStyle : false;
 
             /**
              * Разделить все табы на стеки в виде массива
@@ -32,7 +33,7 @@
             };
 
             /**
-             *
+             * Применить логику для каждого набора табов
              */
             this.setAllStacksTabsLogic = function() {
                 var Parent = this;
@@ -72,11 +73,22 @@
              * @param i integer
              */
             this.showTab = function (stackTabs, i) {
-                var Parent = this;
-                $(stackTabs).find('.' + Parent.classNameTabContent).hide();
-                $(stackTabs).find('.' + Parent.classNameTabContent + '[data-page=' + i + ']').show();
+                var Parent = this,
+                    switchStyle = this.switchStyle;
                 $(stackTabs).find('.' + Parent.classNameTabControl).removeClass(Parent.classNameTabControlActive);
                 $(stackTabs).find('.' + Parent.classNameTabControl + '[data-page=' + i + ']').addClass(Parent.classNameTabControlActive);
+                $(stackTabs).find('.' + Parent.classNameTabContent).hide();
+                switch (switchStyle) {
+                    case 'slide':
+                        $(stackTabs).find('.' + Parent.classNameTabContent + '[data-page=' + i + ']').slideDown('slow');
+                        break;
+                    case 'fade':
+                        $(stackTabs).find('.' + Parent.classNameTabContent + '[data-page=' + i + ']').fadeIn('slow');
+                        break;
+                    default:
+                        $(stackTabs).find('.' + Parent.classNameTabContent).hide();
+                        $(stackTabs).find('.' + Parent.classNameTabContent + '[data-page=' + i + ']').show();
+                }
             };
 
             /**
