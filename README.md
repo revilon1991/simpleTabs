@@ -12,12 +12,12 @@ simpleTabs jQuery Plugin v0.1
 ```javascript
 // Передать объект в аргумент функции simpleTabs
 {
-    classNameTabControl: string,          // Переопределить имя класса по умолчанию для переключателей
-    classNameTabContent: string,          // Переопределить имя класса по умолчанию для контента табов
-    classNameTabControlActive: string,    // Переопределить имя класса по умолчанию для активного переключателя
+    classNameTabControl: str,          // Переопределить имя класса по умолчанию для переключателей
+    classNameTabContent: str,          // Переопределить имя класса по умолчанию для контента табов
+    classNameTabControlActive: str,    // Переопределить имя класса по умолчанию для активного переключателя
     verticalTabs: {width: int},             // Использовать вертикальные табы на ширине экрана до указанного
-    verticalTabs: boolean,                     // Использовать для всех разрешений
-    switchStyle: string                     // Эффект переключения. fade|slide
+    verticalTabs: bool,                     // Использовать для всех разрешений
+    switchStyle: str                     // Эффект переключения. fade|slide
 }
 ```
 ### require:
